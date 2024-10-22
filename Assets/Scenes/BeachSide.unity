@@ -1621,7 +1621,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.12e-43, y: 7.1e-44, z: 0, w: -2.4250994e+31}
+  m_BoundingSphereOverride: {x: 9.1835e-41, y: 6e-44, z: 1.71e-43, w: 8.221e-42}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3938,7 +3938,6 @@ MonoBehaviour:
   Preset: {fileID: 11400000, guid: 90c3c66ae35e3b840be125e2619555e4, type: 2}
   TimeOfDay: 0
   TimeScale: 1
-  skyBoxMaterial: {fileID: 2100000, guid: 1c13d2b066df8be43a86acdcc84fc06b, type: 2}
 --- !u!4 &2057409753
 Transform:
   m_ObjectHideFlags: 0
