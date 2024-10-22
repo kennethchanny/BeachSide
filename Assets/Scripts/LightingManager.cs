@@ -10,6 +10,9 @@ public class LightingManager : MonoBehaviour
     [SerializeField, Range(0, 24)] private float TimeOfDay;
     [SerializeField] private float TimeScale = 1;
 
+    [SerializeField] private float sunRotY = 50f;
+
+
     private Material skyBoxMaterial;
 
     private void Start()
@@ -52,7 +55,7 @@ public class LightingManager : MonoBehaviour
         {
             DirectionalLight.color = Preset.DirectionalColor.Evaluate(timePercent);
 
-            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, sunRotY, 0));
         }
 
        
