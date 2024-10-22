@@ -14,7 +14,8 @@ public class LightingManager : MonoBehaviour
 
     private void Start()
     {
-        skyBoxMaterial = new Material(RenderSettings.skybox); //get the skybox material
+        skyBoxMaterial = new Material(RenderSettings.skybox);
+        RenderSettings.skybox = skyBoxMaterial;
     }
     private void Update()
     {
@@ -27,7 +28,11 @@ public class LightingManager : MonoBehaviour
             TimeOfDay += Time.deltaTime * TimeScale;
             TimeOfDay %= 24; //Modulus to ensure always between 0-24
             UpdateLighting(TimeOfDay / 24f);
+
+            // Update the skybox material
+            skyBoxMaterial.SetFloat("_TimeOfDay", TimeOfDay / 24f);
             
+
         }
         else
         {
@@ -50,9 +55,7 @@ public class LightingManager : MonoBehaviour
             DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
         }
 
-        // Pass the float value to the shader skybox
-        skyBoxMaterial.SetFloat("TimeOfDay", timePercent);
-
+       
     }
 
 
