@@ -62,6 +62,10 @@ public class FirstPersonController : MonoBehaviour
     // Internal Variables
     private bool isWalking = false;
 
+    //FX variables
+    private bool isWalkFXActive = false;
+    private bool isSprintFXActive = false;
+
     #region Sprint
 
     public bool enableSprint = true;
@@ -370,6 +374,8 @@ public class FirstPersonController : MonoBehaviour
 
         if (playerCanMove)
         {
+
+
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
@@ -378,6 +384,7 @@ public class FirstPersonController : MonoBehaviour
             if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
             {
                 isWalking = true;
+                if(!isWalkFXActive)StartCoroutine(SpawnFXCoroutine("walkFX", 0.5f, (state) => isWalkFXActive = state));
             }
             else
             {
@@ -411,6 +418,8 @@ public class FirstPersonController : MonoBehaviour
                     {
                         sprintBarCG.alpha += 5 * Time.deltaTime;
                     }
+
+                    if (!isSprintFXActive) StartCoroutine(SpawnFXCoroutine("sprintFX", 0.25f, (state) => isSprintFXActive = state));
                 }
 
                 rb.AddForce(velocityChange, ForceMode.VelocityChange);
@@ -526,13 +535,30 @@ public class FirstPersonController : MonoBehaviour
             joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
+
+    #region FX
+    private IEnumerator SpawnFXCoroutine(string id, float timeDelay, System.Action<bool> setActiveState)
+    {
+        EventManager.current.SpawnFX(id);
+        setActiveState(true); // Set the FX state to active
+
+        // Wait for a short time before allowing the next spawn
+        yield return new WaitForSeconds(timeDelay); // Adjust the delay as needed
+
+        setActiveState(false); // Reset FX state after delay
+    }
+
+    #endregion
+
+
+
 }
 
 
 
 // Custom Editor
 #if UNITY_EDITOR
-    [CustomEditor(typeof(FirstPersonController)), InitializeOnLoadAttribute]
+[CustomEditor(typeof(FirstPersonController)), InitializeOnLoadAttribute]
     public class FirstPersonControllerEditor : Editor
     {
     FirstPersonController fpc;

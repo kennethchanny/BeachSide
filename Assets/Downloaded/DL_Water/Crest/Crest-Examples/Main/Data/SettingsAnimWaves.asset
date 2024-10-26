@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _version: 0
   _waveResolutionMultiplier: 4
-  _attenuationInShallows: 0.65
-  _shallowsMaxDepth: 9
+  _attenuationInShallows: 0.626
+  _shallowsMaxDepth: 1
   _collisionSource: 2
   _maxQueryCount: 4096
   _pingPongCombinePass: 1
