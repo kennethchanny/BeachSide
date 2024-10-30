@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1.3
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 935446640}
+  m_SkyboxMaterial: {fileID: 1816498356}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -2063,7 +2063,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 6e-44, z: 8.5e-44, w: 3.8625e-41}
+  m_BoundingSphereOverride: {x: 4.1086018e+30, y: 3.4e-44, z: 0, w: -1.03916465e-36}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2227,83 +2227,10 @@ MonoBehaviour:
   _debug:
     _drawBounds: 0
     _drawSlicesInEditor: 0
---- !u!1001 &805563049
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1776289050}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 35.094215
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 35.094215
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 35.09421
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 51
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -87
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 197
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.77016205
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.37980014
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.4268905
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.28349033
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -20.058
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -291.681
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -54.103
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_Name
-      value: MetalDetector
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
 --- !u!4 &805563050 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ffff6af2233e1045808a16c0ebed61d, type: 3}
-  m_PrefabInstance: {fileID: 805563049}
+  m_CorrespondingSourceObject: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+  m_PrefabInstance: {fileID: 1529279120101717913}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &822724847
 GameObject:
@@ -2643,60 +2570,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1467274468}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &935446640
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_SkyboxBlender
-  m_Shader: {fileID: -6465566751694194690, guid: 23d5725b678aba14b895b06fa9b3505a, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _SKYOUTPUT_A
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _Cubemap_Day:
-        m_Texture: {fileID: 8900000, guid: 8fa4fedf13c1a8a44904553ecc5b5a1d, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Cubemap_Evening:
-        m_Texture: {fileID: 8900000, guid: 896b9da9b4029944fb571a2313d94de7, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Cubemap_Midnight:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Cubemap_Morning:
-        m_Texture: {fileID: 8900000, guid: a068c526daeca0c4ea9bdbec9a251bd6, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Cubemap_Night:
-        m_Texture: {fileID: 8900000, guid: a64d2362d418d194f91274685fb10faf, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BUILTIN_QueueControl: 0
-    - _BUILTIN_QueueOffset: 0
-    - _BlendValue: 0.05
-    - _SKYOUTPUT: 0
-    - _TimeOfDay: 0
-    - _TimeScale: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1001 &967164111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4520,6 +4393,60 @@ Transform:
   - {fileID: 805563050}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1816498356
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs_SkyboxBlender
+  m_Shader: {fileID: -6465566751694194690, guid: 23d5725b678aba14b895b06fa9b3505a, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _SKYOUTPUT_A
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Cubemap_Day:
+        m_Texture: {fileID: 8900000, guid: 8fa4fedf13c1a8a44904553ecc5b5a1d, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap_Evening:
+        m_Texture: {fileID: 8900000, guid: 896b9da9b4029944fb571a2313d94de7, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap_Midnight:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap_Morning:
+        m_Texture: {fileID: 8900000, guid: a068c526daeca0c4ea9bdbec9a251bd6, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cubemap_Night:
+        m_Texture: {fileID: 8900000, guid: a64d2362d418d194f91274685fb10faf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _BlendValue: 0.05
+    - _SKYOUTPUT: 0
+    - _TimeOfDay: 0
+    - _TimeScale: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1 &1847681421
 GameObject:
   m_ObjectHideFlags: 0
@@ -5194,6 +5121,63 @@ MonoBehaviour:
     spawnAtFeet: 1
     spawnAtToolFloor: 1
   detectingFXEntries: []
+--- !u!1001 &1529279120101717913
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1776289050}
+    m_Modifications:
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -87
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 197
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.77016205
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.37980014
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.4268905
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.28349033
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -20.058
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -291.681
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210943974721624700, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -54.103
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735806211755786438, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
+      propertyPath: m_Name
+      value: MetalDetector
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0e115c14a598a7469130651ff4bb2ac, type: 3}
 --- !u!1001 &7575382418558105060
 PrefabInstance:
   m_ObjectHideFlags: 0
