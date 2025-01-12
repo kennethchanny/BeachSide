@@ -30,7 +30,7 @@ public class PlayerFXController : MonoBehaviour
 
     private void Start()
     {
-        EventManager.current.onSpawnFX += SpawnFX;
+        EventManager.current.onSpawnFXEvent += SpawnFX;
 
         // Get the CapsuleCollider for player height reference if available
         playerCollider = GetComponent<CapsuleCollider>();
@@ -42,7 +42,7 @@ public class PlayerFXController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.current.onSpawnFX -= SpawnFX;
+        EventManager.current.onSpawnFXEvent -= SpawnFX;
     }
 
     // Method to spawn the FX based on ID

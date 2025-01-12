@@ -44,13 +44,35 @@ public class EventManager : MonoBehaviour
 
      }*/
 
+    // Event for digging
 
-    public event Action<string> onSpawnFX;
 
-    public void SpawnFX(string id)
+    #region PlayerActionEvents
+
+    // Event to trigger the onDig event
+    public event Action onDig;
+    public void DigEvent()
     {
-        onSpawnFX?.Invoke(id); // Trigger the event with the specified ID
+        onDig?.Invoke(); // Trigger dig event for subscribers
     }
+
+    //Event to trigger the onBury event
+    public event Action onBury;
+    public void BuryEvent()
+    {
+        onBury?.Invoke(); // Trigger burying hole event for subscribers
+    }
+    #endregion
+
+    #region GlobalUtilEvents
+
+    // Event for spawning FX with an ID
+    public event Action<string> onSpawnFXEvent;
+    public void SpawnFXEvent(string id)
+    {
+        onSpawnFXEvent?.Invoke(id); // Trigger the event with the specified ID
+    }
+    #endregion
 }
 
 

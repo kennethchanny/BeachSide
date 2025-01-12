@@ -539,7 +539,7 @@ public class FirstPersonController : MonoBehaviour
     #region FX
     private IEnumerator SpawnFXCoroutine(string id, float timeDelay, System.Action<bool> setActiveState)
     {
-        EventManager.current.SpawnFX(id);
+        EventManager.current.SpawnFXEvent(id);
         setActiveState(true); // Set the FX state to active
 
         // Wait for a short time before allowing the next spawn
@@ -549,8 +549,6 @@ public class FirstPersonController : MonoBehaviour
     }
 
     #endregion
-
-
 
 }
 

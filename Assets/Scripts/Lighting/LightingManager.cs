@@ -9,8 +9,8 @@ public class LightingManager : MonoBehaviour
     //Variables
     [SerializeField, Range(0, 24)] private float TimeOfDay;
     [SerializeField] private float TimeScale = 1;
-
     [SerializeField] private float sunRotY = 50f;
+    [SerializeField] private bool isDayNightCycleActive = true;
 
 
     private Material skyBoxMaterial;
@@ -25,8 +25,10 @@ public class LightingManager : MonoBehaviour
         if (Preset == null)
             return;
 
-        if (Application.isPlaying)
+        //if game running and system is active
+        if (Application.isPlaying && isDayNightCycleActive)
         {
+           
             //(Replace with a reference to the game time)
             TimeOfDay += Time.deltaTime * TimeScale;
             TimeOfDay %= 24; //Modulus to ensure always between 0-24

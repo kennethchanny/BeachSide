@@ -12,37 +12,28 @@ public class DigController : MonoBehaviour
     public Transform playerCamera;
 
     // Terrain
-    private GameObject terrainGameObject;
-    private Terrain terrain;
     private TerrainData terrainData;
+    private TerrainCollider terrainCollider;
 
     // Terrain Layer Index
-
     public TerrainLayer digLayer;
     int digLayerIndex = 1; // Set this to the index of your digging layer in the Unity Editor
-
     #endregion
 
     #region Variables
-
     // Digging
     private Vector3 hitPoint;
     public bool isDigging = false;
     public bool canDig = false;
-
+    public bool isEquipped = false;
     public float diggableDistance = 3;
-
-    // textureLayer paintStrength
-    public float paintStrength = 1.5f; 
-
-    // Define the digging range and radius
+    public float paintStrength = 1.5f;
     public float radius = 2f; // The radius of the area to affect
-    public float digDepth = 0.0002f;  // How deep to dig
-
-    // Digging Cooldown
+    public float digDepth = 2f; // How deep to dig
+    private float digMultiplier = 0.0001f; // Dig multiplier
+    public float pileRange = 1.5f;
     public float digCooldown = 0.2f; // Time between digs
     private float digCooldownTimer = 0f;
-
     #endregion
 
     void Start()
@@ -54,18 +45,23 @@ public class DigController : MonoBehaviour
         // Assign first person controller
         firstPersonController = GetComponent<FirstPersonController>();
 
-        // Assign terrain refs
-        terrainGameObject = GameObject.FindGameObjectWithTag("Terrain");
-        terrain = terrainGameObject.GetComponent<Terrain>();
-
-        // Create a new copy of the terrain data to use during Play mode
-        terrainData = Instantiate(terrain.terrainData);
-        terrain.terrainData = terrainData; // Assign the copy to the Terrain component
+        // Assign terrain refs from TerrainInitializer
+        TerrainInitializer terrainInitializer = FindObjectOfType<TerrainInitializer>();
+        terrainData = terrainInitializer.GetTerrainData();
+        terrainCollider = terrainInitializer.GetTerrainCollider();
 
         // Check if digLayerIndex is within bounds
-        if (digLayerIndex < 0 || digLayerIndex >= terrain.terrainData.terrainLayers.Length)
+        if (digLayerIndex < 0 || digLayerIndex >= terrainData.terrainLayers.Length)
         {
             Debug.LogError("Invalid digLayerIndex. Please ensure it's within the range of available terrain layers.");
+        }
+    }
+
+    void CheckEquipped()
+    {
+        if (isEquipped == false)
+        {
+            return;
         }
     }
 
@@ -73,13 +69,12 @@ public class DigController : MonoBehaviour
     {
         Vector3 origin = playerCamera.position;
         Vector3 direction = playerCamera.forward;
-        
 
         if (Physics.Raycast(origin, direction, out RaycastHit hit, diggableDistance))
         {
             Debug.DrawRay(origin, direction * diggableDistance, Color.red);
 
-            if (hit.collider.gameObject == terrainGameObject)
+            if (hit.collider.gameObject == terrainCollider.gameObject)
             {
                 canDig = true;
                 hitPoint = hit.point; // Store the hit point
@@ -95,7 +90,7 @@ public class DigController : MonoBehaviour
         }
     }
 
-    void Dig(float depth)
+    public void Dig(float depth)
     {
         if (hitPoint == Vector3.zero)
         {
@@ -103,21 +98,19 @@ public class DigController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Im Digging!");
+        Debug.Log("I'm Digging!");
 
-        // Convert world position to terrain coordinates
-        Vector3 terrainPos = hitPoint - terrain.transform.position;
+        Vector3 terrainPos = hitPoint - terrainCollider.transform.position;
         float terrainX = terrainPos.x / terrainData.size.x * terrainData.heightmapResolution;
         float terrainY = terrainPos.z / terrainData.size.z * terrainData.heightmapResolution;
 
-        // Get the heightmap
         float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
 
-        // Calculate the center of the digging area
         int centerX = Mathf.RoundToInt(terrainX);
         int centerY = Mathf.RoundToInt(terrainY);
 
-        // Apply the digging effect within the radius
+        float displacedVolume = 0f; // Track displaced volume
+
         for (int x = Mathf.Max(0, centerX - Mathf.RoundToInt(radius)); x < Mathf.Min(terrainData.heightmapResolution, centerX + Mathf.RoundToInt(radius)); x++)
         {
             for (int y = Mathf.Max(0, centerY - Mathf.RoundToInt(radius)); y < Mathf.Min(terrainData.heightmapResolution, centerY + Mathf.RoundToInt(radius)); y++)
@@ -126,20 +119,75 @@ public class DigController : MonoBehaviour
 
                 if (distance <= radius)
                 {
-                    float heightChange = Mathf.Lerp(depth, 0, distance / radius);
+                    float heightChange = Mathf.Lerp(depth * digMultiplier, 0, distance / radius);
+                    displacedVolume += heightChange * terrainData.size.x * terrainData.size.z / terrainData.heightmapResolution;
                     heights[y, x] -= heightChange;
                 }
             }
         }
 
-        // Set the updated heights back to the terrain
         terrainData.SetHeights(0, 0, heights);
 
+        // Create the dirt pile
+        UpdateDirtPile(hitPoint, displacedVolume);
+
         // Paint the terrain at the digging spot
-        PaintTerrain();
+        UpdatePaintTerrain();
+
+        // Update Terrain Collision
+        UpdateCollision();
     }
 
-    void PaintTerrain()
+    void UpdateDirtPile(Vector3 digPosition, float displacedVolume)
+    {
+        // Proceduralize the dirt pile position based on dig radius and distance
+        Vector3 pileDirection = new Vector3(1f, 0f, 1f).normalized; // Direction for pile placement
+        float pileDistance = radius * pileRange; // Offset distance relative to dig radius
+        Vector3 pilePosition = digPosition + pileDirection * pileDistance; // Offset the pile from the dig site
+
+        Vector3 terrainPos = pilePosition - terrainCollider.transform.position;
+        float terrainX = terrainPos.x / terrainData.size.x * terrainData.heightmapResolution;
+        float terrainY = terrainPos.z / terrainData.size.z * terrainData.heightmapResolution;
+
+        float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
+
+        int pileCenterX = Mathf.RoundToInt(terrainX);
+        int pileCenterY = Mathf.RoundToInt(terrainY);
+
+        float pileRadius = radius * 0.75f; // Scale the pile radius relative to the dig radius
+
+        // Calculate the area of the pile for normalization
+        float pileArea = Mathf.PI * pileRadius * pileRadius;
+
+        // Normalize displacedVolume by area and terrain height scale to avoid excessive height
+        float heightContribution = displacedVolume / pileArea / terrainData.size.y;
+
+        for (int x = Mathf.Max(0, pileCenterX - Mathf.RoundToInt(pileRadius)); x < Mathf.Min(terrainData.heightmapResolution, pileCenterX + Mathf.RoundToInt(pileRadius)); x++)
+        {
+            for (int y = Mathf.Max(0, pileCenterY - Mathf.RoundToInt(pileRadius)); y < Mathf.Min(terrainData.heightmapResolution, pileCenterY + Mathf.RoundToInt(pileRadius)); y++)
+            {
+                float distance = Vector2.Distance(new Vector2(pileCenterX, pileCenterY), new Vector2(x, y));
+
+                if (distance <= pileRadius)
+                {
+                    // Apply Gaussian-like falloff for a smoother slope
+                    float falloff = Mathf.Exp(-distance * distance / (2 * pileRadius * pileRadius));
+
+                    // Calculate height change considering both falloff and volume scaling
+                    float heightChange = heightContribution * falloff;
+
+                    // Ensure that the resulting height change is within a reasonable range
+                    heights[y, x] = Mathf.Clamp(heights[y, x] + heightChange, 0, 1); // Clamp to valid height range (0 to 1)
+                }
+            }
+        }
+
+        terrainData.SetHeights(0, 0, heights);
+
+        Debug.Log($"Dirt pile created at {pilePosition}, Dig Radius: {radius}, Dig Depth: {digDepth}");
+    }
+
+    void UpdatePaintTerrain()
     {
         if (digLayer == null)
         {
@@ -148,11 +196,11 @@ public class DigController : MonoBehaviour
         }
 
         // Get the terrain texture alpha map
-        float[,,] splatmapData = terrain.terrainData.GetAlphamaps(0, 0, terrain.terrainData.alphamapWidth, terrain.terrainData.alphamapHeight);
+        float[,,] splatmapData = terrainData.GetAlphamaps(0, 0, terrainData.alphamapWidth, terrainData.alphamapHeight);
 
         // Get the index of the digLayer in the terrain layers array
         int digLayerIndex = -1;
-        TerrainLayer[] terrainLayers = terrain.terrainData.terrainLayers;
+        TerrainLayer[] terrainLayers = terrainData.terrainLayers;
 
         for (int i = 0; i < terrainLayers.Length; i++)
         {
@@ -170,7 +218,7 @@ public class DigController : MonoBehaviour
         }
 
         // Convert world position to terrain coordinates
-        Vector3 terrainPos = hitPoint - terrain.transform.position;
+        Vector3 terrainPos = hitPoint - terrainCollider.transform.position;
         float terrainX = terrainPos.x / terrainData.size.x * terrainData.alphamapWidth;
         float terrainY = terrainPos.z / terrainData.size.z * terrainData.alphamapHeight;
 
@@ -194,19 +242,19 @@ public class DigController : MonoBehaviour
                     // Calculate the total current alpha sum to maintain blending
                     float currentTotalAlpha = 0f;
 
-                    for (int i = 0; i < terrain.terrainData.terrainLayers.Length; i++)
+                    for (int i = 0; i < terrainData.terrainLayers.Length; i++)
                     {
                         currentTotalAlpha += splatmapData[y, x, i];
                     }
 
                     // Normalize the current layers before blending
-                    for (int i = 0; i < terrain.terrainData.terrainLayers.Length; i++)
+                    for (int i = 0; i < terrainData.terrainLayers.Length; i++)
                     {
                         splatmapData[y, x, i] /= currentTotalAlpha;
                     }
 
                     // Blend the digging layer with existing layers
-                    for (int i = 0; i < terrain.terrainData.terrainLayers.Length; i++)
+                    for (int i = 0; i < terrainData.terrainLayers.Length; i++)
                     {
                         if (i == digLayerIndex)
                         {
@@ -221,12 +269,12 @@ public class DigController : MonoBehaviour
                     // Re-normalize to ensure the total alpha is still 1
                     float newTotalAlpha = 0f;
 
-                    for (int i = 0; i < terrain.terrainData.terrainLayers.Length; i++)
+                    for (int i = 0; i < terrainData.terrainLayers.Length; i++)
                     {
                         newTotalAlpha += splatmapData[y, x, i];
                     }
 
-                    for (int i = 0; i < terrain.terrainData.terrainLayers.Length; i++)
+                    for (int i = 0; i < terrainData.terrainLayers.Length; i++)
                     {
                         splatmapData[y, x, i] /= newTotalAlpha;
                     }
@@ -234,13 +282,20 @@ public class DigController : MonoBehaviour
             }
         }
 
-        // Set the updated alpha map back to the terrain
+        // Apply the updated alpha map back to the terrain
         terrainData.SetAlphamaps(0, 0, splatmapData);
+    }
+
+    void UpdateCollision()
+    {
+        //update collision on dig
+        terrainCollider.terrainData = terrainData;
     }
 
     void Update()
     {
         #region Digging
+        CheckEquipped();
         CheckDiggable();
 
         if (canDig)
@@ -250,14 +305,16 @@ public class DigController : MonoBehaviour
             if (Input.GetMouseButton(0) && digCooldownTimer <= 0f)
             {
                 Dig(digDepth);
-                EventManager.current.SpawnFX("shovelFX"); // Trigger dig event with "shovelFX" ID
+                EventManager.current.DigEvent(); // Trigger dig
+                EventManager.current.SpawnFXEvent("shovelFX"); // Trigger dig FX with "shovelFX" ID
                 digCooldownTimer = digCooldown;
             }
 
             if (Input.GetMouseButton(1) && digCooldownTimer <= 0f)
             {
                 Dig(-digDepth);
-                EventManager.current.SpawnFX("shovelFX"); // Trigger dig event with "shovelFX" ID
+                EventManager.current.DigEvent(); // Trigger dig
+                EventManager.current.SpawnFXEvent("shovelFX"); // Trigger dig FX with "shovelFX" ID
                 digCooldownTimer = digCooldown;
             }
         }
