@@ -298,7 +298,7 @@ public class DigController : MonoBehaviour
         CheckEquipped();
         CheckDiggable();
 
-        if (canDig)
+        if (canDig && isEquipped)
         {
             digCooldownTimer -= Time.deltaTime;
 

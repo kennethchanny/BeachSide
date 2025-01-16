@@ -366,6 +366,8 @@ public class FirstPersonController : MonoBehaviour
         {
             HeadBob();
         }
+
+        SwapEquipment();
     }
 
     void FixedUpdate()
@@ -534,6 +536,31 @@ public class FirstPersonController : MonoBehaviour
             timer = 0;
             joint.localPosition = new Vector3(Mathf.Lerp(joint.localPosition.x, jointOriginalPos.x, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed), Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
+    }
+
+    private void SwapEquipment()
+    {
+        // Get external variables
+        DigController digController = gameObject.GetComponent<DigController>();
+        Player_DetectController detectController = gameObject.GetComponent<Player_DetectController>();
+
+        if (digController && detectController != null)
+        {
+            // equip detect tool
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                digController.isEquipped = false;
+                detectController.isEquipped = true;
+                Debug.Log("Detect Tool Equipped");
+            }
+            // equip dig tool
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                digController.isEquipped = true;
+                detectController.isEquipped = false;
+                Debug.Log("Dig Tool Equipped");
+            }
+        }            
     }
 
     #region FX
