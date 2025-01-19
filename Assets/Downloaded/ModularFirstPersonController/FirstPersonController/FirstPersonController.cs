@@ -135,6 +135,12 @@ public class FirstPersonController : MonoBehaviour
 
     #endregion
 
+    #region Misc Variables
+    // Flag to check if a swap is in progress
+    private bool isSwapping = false;
+    #endregion
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -541,27 +547,64 @@ public class FirstPersonController : MonoBehaviour
     private void SwapEquipment()
     {
         // Get external variables
-        DigController digController = gameObject.GetComponent<DigController>();
+        Player_DigController digController = gameObject.GetComponent<Player_DigController>();
         Player_DetectController detectController = gameObject.GetComponent<Player_DetectController>();
 
         if (digController && detectController != null)
         {
-            // equip detect tool
+            // Equip detect tool
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                digController.isEquipped = false;
-                detectController.isEquipped = true;
+                if (isSwapping) return; // Prevent swapping if already swapping
+                isSwapping = true; // Set swapping flag
+                StartCoroutine(SwapToMetalDetector(0.3f, digController, detectController));
                 Debug.Log("Detect Tool Equipped");
             }
-            // equip dig tool
+            // Equip dig tool
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                digController.isEquipped = true;
-                detectController.isEquipped = false;
+                if (isSwapping) return; // Prevent swapping if already swapping
+                isSwapping = true; // Set swapping flag
+                StartCoroutine(SwapToShovel(0.3f, digController, detectController));
                 Debug.Log("Dig Tool Equipped");
             }
-        }            
+        }
     }
+
+    // Coroutine for handling item swap with delay
+    private IEnumerator SwapToShovel(float delay, Player_DigController digController, Player_DetectController detectController)
+    {
+        // Unequip detector
+        detectController.metalDetectorAnimator.SetBool("isEquipped", false); // Trigger hide anim for metal detector
+        detectController.isEquipped = false; // Disable behavior instantly
+        yield return new WaitForSeconds(delay); // Wait for the delay (To fully unequip)
+
+        // Equip shovel
+        digController.shovelAnimator.SetBool("isEquipped", true); // Trigger equip anim for shovel
+        yield return new WaitForSeconds(delay); // Wait for the delay (To fully equip)
+        digController.isEquipped = true; // Enable behavior
+
+        // Reset the swapping flag
+        isSwapping = false;
+    }
+
+    // Coroutine for handling item swap with delay
+    private IEnumerator SwapToMetalDetector(float delay, Player_DigController digController, Player_DetectController detectController)
+    {
+        // Unequip shovel
+        digController.shovelAnimator.SetBool("isEquipped", false); // Trigger hide anim for shovel
+        digController.isEquipped = false; // Disable behavior instantly
+        yield return new WaitForSeconds(delay); // Wait for the delay (To fully unequip)
+
+        // Equip detector
+        detectController.metalDetectorAnimator.SetBool("isEquipped", true); // Trigger equip anim for metal detector
+        yield return new WaitForSeconds(delay); // Wait for the delay (To fully equip)
+        detectController.isEquipped = true; // Enable behavior
+
+        // Reset the swapping flag
+        isSwapping = false;
+    }
+
 
     #region FX
     private IEnumerator SpawnFXCoroutine(string id, float timeDelay, System.Action<bool> setActiveState)

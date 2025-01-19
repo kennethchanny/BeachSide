@@ -49,6 +49,8 @@ public class EventManager : MonoBehaviour
 
     #region PlayerActionEvents
 
+
+
     // Event to trigger the onDig event
     public event Action onDig;
     public void DigEvent()

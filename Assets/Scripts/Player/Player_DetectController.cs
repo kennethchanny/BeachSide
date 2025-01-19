@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Player_DetectController : MonoBehaviour
 {
     #region References
 
+    //MetalDetector
+    public GameObject metalDetector;
+    public Animator metalDetectorAnimator;
+
     // Player
     FirstPersonController firstPersonController;
     private GameObject playerGameObject;
     private Vector3 playerPosition;
     public Transform playerCamera;
+
 
     #endregion
 
@@ -29,10 +35,16 @@ public class Player_DetectController : MonoBehaviour
     public float detectCooldown = 0.2f; // Time between detects
     private float detectCooldownTimer = 0f;
 
+
+    //Event firing of swapping items.
+    private bool isSwapping = false; // Flag to check if a swap is in progress
+
     #endregion
 
     void Start()
     {
+       
+
         // Get player
         playerGameObject = gameObject;
         playerPosition = playerGameObject.transform.position;
@@ -40,8 +52,13 @@ public class Player_DetectController : MonoBehaviour
         // Assign first person controller
         firstPersonController = GetComponent<FirstPersonController>();
 
+        //Animator
+        metalDetectorAnimator = metalDetector.GetComponent<Animator>();
+
         //need to do a 3d circle cast to detect objects within radius
     }
+
+
 
     void Detect()
     {

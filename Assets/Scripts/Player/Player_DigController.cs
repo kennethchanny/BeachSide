@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DigController : MonoBehaviour
+public class Player_DigController : MonoBehaviour
 {
     #region References
+
+    //Shovel
+    public GameObject shovel;
+    public Animator shovelAnimator;
+
     // Player
     FirstPersonController firstPersonController;
     private GameObject playerGameObject;
@@ -38,6 +43,7 @@ public class DigController : MonoBehaviour
 
     void Start()
     {
+
         // Get player
         playerGameObject = gameObject;
         playerPosition = playerGameObject.transform.position;
@@ -50,6 +56,11 @@ public class DigController : MonoBehaviour
         terrainData = terrainInitializer.GetTerrainData();
         terrainCollider = terrainInitializer.GetTerrainCollider();
 
+
+        //Animator
+        shovelAnimator = shovel.GetComponent<Animator>();
+
+
         // Check if digLayerIndex is within bounds
         if (digLayerIndex < 0 || digLayerIndex >= terrainData.terrainLayers.Length)
         {
@@ -57,13 +68,10 @@ public class DigController : MonoBehaviour
         }
     }
 
-    void CheckEquipped()
-    {
-        if (isEquipped == false)
-        {
-            return;
-        }
-    }
+
+    
+
+
 
     void CheckDiggable()
     {
@@ -295,7 +303,6 @@ public class DigController : MonoBehaviour
     void Update()
     {
         #region Digging
-        CheckEquipped();
         CheckDiggable();
 
         if (canDig && isEquipped)
