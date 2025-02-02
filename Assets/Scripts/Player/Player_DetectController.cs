@@ -9,7 +9,7 @@ public class Player_DetectController : MonoBehaviour
 
     //MetalDetector
     public GameObject metalDetector;
-    public Animator metalDetectorAnimator;
+    [HideInInspector] public Animator metalDetectorAnimator;
 
     // Player
     FirstPersonController firstPersonController;
@@ -43,7 +43,11 @@ public class Player_DetectController : MonoBehaviour
 
     void Start()
     {
-       
+        InitializeReferences();
+    }
+
+    void InitializeReferences()
+    {
 
         // Get player
         playerGameObject = gameObject;
@@ -57,8 +61,6 @@ public class Player_DetectController : MonoBehaviour
 
         //need to do a 3d circle cast to detect objects within radius
     }
-
-
 
     void Detect()
     {

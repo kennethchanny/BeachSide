@@ -8,7 +8,7 @@ public class Player_DigController : MonoBehaviour
 
     //Shovel
     public GameObject shovel;
-    public Animator shovelAnimator;
+    [HideInInspector] public Animator shovelAnimator;
 
     // Player
     FirstPersonController firstPersonController;
@@ -43,7 +43,11 @@ public class Player_DigController : MonoBehaviour
 
     void Start()
     {
+        InitializeReferences();
+    }
 
+    void InitializeReferences()
+    {
         // Get player
         playerGameObject = gameObject;
         playerPosition = playerGameObject.transform.position;
@@ -67,11 +71,6 @@ public class Player_DigController : MonoBehaviour
             Debug.LogError("Invalid digLayerIndex. Please ensure it's within the range of available terrain layers.");
         }
     }
-
-
-    
-
-
 
     void CheckDiggable()
     {
